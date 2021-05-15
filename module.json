@@ -1,16 +1,17 @@
 {
-    "name": "rounded-distance-for-measured-templates",
-    "title": "Rounded Distance for Measured Templates",
-    "description": "This module rounds the distance of a measured template to the nearest multiple. By default it rounds the distance to the nearest multiple of the grid distance, but can be changed in the settings. It's also possible to round by defined steps as well. You can also set the angle that cones and rays snap to during rotation while creating.",
+    "name": "overhead-tile-fade-for-all-tokens",
+    "title": "Overhead Tile Fade for All Tokens",
+    "description": "Applies the fade to an overhead tile when any token is under the overhead tile.",
     "author": "shortyverrett94 - shortyverrett94#4531",
-    "version": "0.5.0",
-    "minimumCoreVersion": "0.8.0",
-    "compatibleCoreVersion": "0.8.2",
+    "version": "0.1.0",
+    "minimumCoreVersion": "0.8.3",
+    "compatibleCoreVersion": "0.8.3",
     "scripts": [
-        "scripts/rounded-distance-for-measured-templates.js"
+        "scripts/overhead-tile-fade-for-all-tokens.js"
     ],
-    "url": "https://github.com/cdverrett94/rounded-distance-for-measured-templates",
-    "download": "https://github.com/cdverrett94/rounded-distance-for-measured-templates/releases/download/0.5.0/v0.5.0.zip",
-    "manifest": "https://raw.githubusercontent.com/cdverrett94/rounded-distance-for-measured-templates/main/module.json",
-    "bugs": "https://github.com/cdverrett94/rounded-distance-for-measured-templates/issues"
+    "url": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens",
+    "download": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/download/0.5.0/v0.5.0.zip",
+    "manifest": "https://raw.githubusercontent.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/download/0.1.0/module.json",
+    "bugs": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/issues",
+    "socket": true
 }

@@ -1,6 +1,3 @@
-# Rounded Distance for Measured Templates
+# Overhead Tile Fade for All Tokens 
 
-This module rounds the distance for your measured templates to the nearest multiple of a set number. By default, it rounds the distance to the nearest multiple of your grid units of the scene. So for 5ft grids, it'll round to the nearest multiple of 5ft. If you change the multiple number in the settings, it will round to the nearest multiple of that number. Setting to 1 will make it round to the nearest whole number.
-
-In addition, there is an option for angle snapping for cones and rays to the nearest multiple.
-"# overhead-tile-fade-for-all-tokens" 
+When a token goes under an overhead tile with fade, the default is to only have it fade for that token. This hides the token for all other actors. This module overrides the default behavior to have the fade show for all tokens instead so the token remains visible. 
