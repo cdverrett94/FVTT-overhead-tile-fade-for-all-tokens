@@ -1,24 +1,19 @@
 Hooks.on("ready", function() {
-    const occlusionOverride = function() {
-        let tokens = game.user.isGM ? canvas.tokens.controlled : canvas.tokens.ownedTokens;
-        this.renderOcclusionMask();
-        for ( let tile of this.tiles ) {
-            console.log(tile)
-            let oldIsOccluded = tile.occluded
-            if(tile.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE) tokens = canvas.tokens.placeables;
-            tile.updateOcclusion(tokens);
-            let newIsOccluded = tile.occluded
+    Hooks.on('updateToken', function(token, changes, options, userid) {
+        if("x" in changes || "y" in changes) {
+            for(tile of canvas.foreground.tiles) {
+                if(tile.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE) {
+                    let currentOccluded = tile.occluded;
+                    tile.updateOcclusion(canvas.tokens.placeables)
+                    let newOccluded = tile.occluded
 
-            console.log(oldIsOccluded, newIsOccluded)
-
-            if(oldIsOccluded !== newIsOccluded) game.socket.emit("module.overhead-tile-fade-for-all-tokens", {foreground: {refresh: true}})
+                    if(currentOccluded !== newOccluded) game.socket.emit("module.overhead-tile-fade-for-all-tokens", {foreground: {refresh: true}})
+                }
+            }
         }
-    }
-
+    });
 
     game.socket.on("module.overhead-tile-fade-for-all-tokens", function(data) {
-        console.log('hi')
-        canvas.perception.schedule(data)
-    })
-    ForegroundLayer.prototype.updateOcclusion = occlusionOverride;
+        canvas.foreground.refresh();
+    });
 });
