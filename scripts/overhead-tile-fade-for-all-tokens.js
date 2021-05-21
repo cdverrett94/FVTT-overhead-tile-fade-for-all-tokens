@@ -1,19 +1,19 @@
 Hooks.on("ready", function() {
-    Hooks.on('updateToken', function(token, changes, options, userid) {
-        if("x" in changes || "y" in changes) {
-            for(tile of canvas.foreground.tiles) {
-                if(tile.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE) {
-                    let currentOccluded = tile.occluded;
-                    tile.updateOcclusion(canvas.tokens.placeables)
-                    let newOccluded = tile.occluded
-
-                    if(currentOccluded !== newOccluded) game.socket.emit("module.overhead-tile-fade-for-all-tokens", {foreground: {refresh: true}})
-                }
+     const updateOcclusionForAllTokens = function({sendSocket = true, tiles = canvas.foreground.tiles} = {}) {
+         for(tile of tiles) {
+            if(tile.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE) {
+                tile.updateOcclusion(canvas.tokens.placeables);
             }
         }
-    });
-
-    game.socket.on("module.overhead-tile-fade-for-all-tokens", function(data) {
         canvas.foreground.refresh();
+        if(sendSocket) game.socket.emit('module.overhead-tile-fade-for-all-tokens');
+    }
+
+    Hooks.on("sightRefresh", function() { updateOcclusionForAllTokens() });
+    Hooks.on("updateTile", function(tile, changes, options, userid) {
+        if(changes.occlusion?.mode === CONST.TILE_OCCLUSION_MODES.FADE || "x" in changes || "y" in changes) {
+            updateOcclusionForAllTokens({tiles: [tile._object], sendSocket: false});
+        }
     });
+    game.socket.on('module.overhead-tile-fade-for-all-tokens', function() { updateOcclusionForAllTokens({sendSocket: false}) });
 });
