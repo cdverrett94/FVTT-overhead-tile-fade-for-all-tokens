@@ -10,7 +10,7 @@
         "scripts/overhead-tile-fade-for-all-tokens.js"
     ],
     "url": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens",
-    "download": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/download/0.1.0/package.zip",
+    "download": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/latest/download/package.zip",
     "manifest": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/latest/download/module.json",
     "bugs": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/issues",
     "socket": true
