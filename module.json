@@ -1,17 +1,17 @@
 {
-    "name": "overhead-tile-fade-for-all-tokens",
-    "title": "Overhead Tile Fade for All Tokens",
-    "description": "Applies the fade to an overhead tile when any token is under the overhead tile.",
-    "author": "shortyverrett94 - shortyverrett94#4531",
-    "version": "0.1.0",
-    "minimumCoreVersion": "0.8.5",
-    "compatibleCoreVersion": "0.8.5",
-    "scripts": [
-        "scripts/overhead-tile-fade-for-all-tokens.js"
-    ],
-    "url": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens",
-    "download": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/latest/download/package.zip",
-    "manifest": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/latest/download/module.json",
-    "bugs": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/issues",
-    "socket": true
+  "name": "overhead-tile-fade-for-all-tokens",
+  "title": "Overhead Tile Fade for All Tokens",
+  "description": "Applies the fade to an overhead tile when any token is under the overhead tile.",
+  "author": "shortyverrett94 - shortyverrett94#4531",
+  "url": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens",
+  "bugs": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/issues",
+  "version": "0.1.0",
+  "minimumCoreVersion": "0.8.5",
+  "compatibleCoreVersion": "0.8.7",
+  "scripts": [
+    "scripts/overhead-tile-fade-for-all-tokens.js"
+  ],
+  "socket": true,
+  "manifest": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/latest/download/module.json",
+  "download": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/download/0.1.0/package.zip"
 }
