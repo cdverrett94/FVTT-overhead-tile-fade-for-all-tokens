@@ -7,7 +7,7 @@
   "bugs": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/issues",
   "version": "0.1.0",
   "minimumCoreVersion": "0.8.5",
-  "compatibleCoreVersion": "0.8.7",
+  "compatibleCoreVersion": "0.8.8",
   "scripts": [
     "scripts/overhead-tile-fade-for-all-tokens.js"
   ],
