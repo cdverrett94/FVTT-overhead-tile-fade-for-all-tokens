@@ -50,7 +50,7 @@ Hooks.on("ready", function() {
                 <input type="checkbox" name="flags.${module}.activate" data-dtype="Boolean" ${(flags?.activate === false)? '':'checked="checked"'} />
             </div>
             <div class="form-group">
-                <label>Fade For Players When What Tokens is Under the Tile?</label>
+                <label>Fade For Players When What Tokens are Under the Tile?</label>
                 Friendly: <input type="checkbox" name="flags.${module}.friendly" data-dtype="Boolean" ${(flags?.friendly === false)? '':'checked="checked"'} />
                 Neutral: <input type="checkbox" name="flags.${module}.neutral" data-dtype="Boolean" ${(flags?.neutral === false)? '':'checked="checked"'} />
                 Hostile: <input type="checkbox" name="flags.${module}.hostile" data-dtype="Boolean" ${(flags?.hostile === false)? '':'checked="checked"'} />
