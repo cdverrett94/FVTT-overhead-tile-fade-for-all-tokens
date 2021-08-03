@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.0
+ Wrap Tile.prototype.updateOcclusion using "wrapper" instead of ForegroundLayer.prototype.updateOcclusion using "override" by dev7355608
+
 ## 0.2.0
 Added per tile settings
 - Activate fade for all tokens on a per tile basis. defaults to on
