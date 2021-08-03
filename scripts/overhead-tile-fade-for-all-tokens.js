@@ -1,41 +1,29 @@
 Hooks.on("ready", function() {
     const module = "overhead-tile-fade-for-all-tokens";
 
-    const updateOcclusion = function() {
-        let tokens = game.user.isGM ? canvas.tokens.controlled : canvas.tokens.ownedTokens;
-        this._drawOcclusionShapes(tokens);
-        this.occlusionMask.roofs.removeChildren();
-        for ( let tile of this.tiles ) {
-           // Added to original to filter tokens down to those that should be checked for this tile
-            tokens = game.user.isGM ? canvas.tokens.controlled : canvas.tokens.ownedTokens;
-            if(tile.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE && tile.data.flags[module]?.activate !== false) {
-                tokens = canvas.tokens.placeables.filter(function(token) {
-                    let tile = this;
-                    if(canvas.tokens.controlled.includes(token)) return true;
-                    if(tile.data.flags[module]?.hidden !== true && token.data.hidden === true) return false;
-                    if(tile.data.flags[module]?.friendly !== false && token.data.disposition === 1) return true;
-                    if(tile.data.flags[module]?.neutral !== false && token.data.disposition === 0) return true;
-                    if(tile.data.flags[module]?.hostile !== false && token.data.disposition === -1) return true;
-                    return false;
-                }, tile)
-            }
-            // Finish added code for function
-        
-            tile.updateOcclusion(tokens);
-            if ( tile.isRoof && (tile.occluded || !this.displayRoofs) ) {
-                const s = tile.getRoofSprite();
-                if ( !s ) continue;
-                s.tint = 0x0000FF;
-                this.occlusionMask.roofs.addChild(s); 
-            }
+    const updateOcclusion = function(wrapped, tokens) {
+        // Added to original to filter tokens down to those that should be checked for this tile
+        if(this.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE && this.data.flags[module]?.activate !== false) {
+            tokens = canvas.tokens.placeables.filter(token => {
+                if(canvas.tokens.controlled.includes(token)) return true;
+                if(this.data.flags[module]?.hidden !== true && token.data.hidden === true) return false;
+                if(this.data.flags[module]?.friendly !== false && token.data.disposition === 1) return true;
+                if(this.data.flags[module]?.neutral !== false && token.data.disposition === 0) return true;
+                if(this.data.flags[module]?.hostile !== false && token.data.disposition === -1) return true;
+                return false;
+            });
         }
+        return wrapped(tokens);
     }
 
     // use libWrapper to wrap method if available
     if (game.modules.get("lib-wrapper")?.active) {
-        libWrapper.register(module, "ForegroundLayer.prototype.updateOcclusion", updateOcclusion, "OVERRIDE");
+        libWrapper.register(module, "Tile.prototype.updateOcclusion", updateOcclusion, "WRAPPER");
     } else {
-        ForegroundLayer.prototype.updateOcclusion = updateOcclusion;
+        const oldUpdateOcclusion = Tile.prototype.updateOcclusion;
+        Tile.prototype.updateOcclusion = function (tokens) {
+            return updateOcclusion.call(this, oldUpdateOcclusion.bind(this), tokens);
+        };
     }
 
     // Adding settings to the Tile Config
