@@ -1,4 +1,8 @@
 # Changelog
+## 4.2
+Fix Macro compendium having duplicate/incorrect old macros.
+Fixed issue that prevented tile occlusion from functioning properly right when a token was hidden/revealed by visibility.
+
 ## 4.1
 Change versioning method
 Reconfigured the options for fade methods to be:
