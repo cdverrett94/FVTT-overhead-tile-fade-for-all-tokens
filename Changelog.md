@@ -1,4 +1,11 @@
 # Changelog
+## 4.1
+Change versioning method
+Reconfigured the options for fade methods to be:
+- Foundry Default - uses the default foundry method where the tile is faded for only the token under the tile
+- All - Fade the tile for all tokens regardless of visibility, hidden status, or disposition
+- By Disposition - fade the tile if a token that matches the selected disposition and hidden status in the settings
+- By Visibility - fade the tile as long as the controllers token has visibility on the token under the tile. 
 
 ## 0.3.0
  Wrap Tile.prototype.updateOcclusion using "wrapper" instead of ForegroundLayer.prototype.updateOcclusion using "override" by dev7355608
