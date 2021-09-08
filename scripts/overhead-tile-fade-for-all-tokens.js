@@ -7,6 +7,7 @@ Hooks.on("ready", function() {
             if(this.data.flags[module]?.mode === "ALL") {
                 tokens = canvas.tokens.placeables;
             } else if(this.data.flags[module]?.mode === "BY_VISIBILITY") {
+                canvas.sight.refresh();
                 tokens = canvas.tokens.placeables.filter(token => token.visible);
             } else {
                 tokens = canvas.tokens.placeables.filter(token => {
