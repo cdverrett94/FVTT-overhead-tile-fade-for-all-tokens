@@ -8,15 +8,18 @@
   "version": "4.2",
   "minimumCoreVersion": "0.8.8",
   "compatibleCoreVersion": "9",
-  "scripts": [
-    "./scripts/overhead-tile-fade-for-all-tokens.js"
-  ],
+  "scripts": ["./scripts/overhead-tile-fade-for-all-tokens.js"],
   "packs": [
     {
       "name": "overhead-tile-fade-for-all-tokens-macros",
       "label": "Overhead Tile Fade for All Tokens Macros",
       "path": "./packs/overhead-tile-fade-for-all-tokens-macros.db",
       "entity": "Macro"
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "lib-wrapper"
     }
   ],
   "manifest": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/releases/latest/download/module.json",
