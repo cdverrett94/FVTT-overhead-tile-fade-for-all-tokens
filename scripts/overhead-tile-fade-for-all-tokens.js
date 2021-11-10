@@ -3,10 +3,10 @@ class OverheadTileFade {
 
   static updateOcclusion(wrapped, tokens) {
     // Added to original to filter tokens down to those that should be checked for this tile
-    if (this.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE && this.data.flags[module]?.mode !== "OFF") {
-      if (this.data.flags[module]?.mode === "ALL") {
+    if (this.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE && this.data.flags[OverheadTileFade.MODULE_NAME]?.mode !== "OFF") {
+      if (this.data.flags[OverheadTileFade.MODULE_NAME]?.mode === "ALL") {
         tokens = canvas.tokens.placeables;
-      } else if (this.data.flags[module]?.mode === "BY_VISIBILITY") {
+      } else if (this.data.flags[OverheadTileFade.MODULE_NAME]?.mode === "BY_VISIBILITY") {
         canvas.sight.refresh();
         tokens = canvas.tokens.placeables.filter(token => token.visible);
       } else {
@@ -24,6 +24,7 @@ class OverheadTileFade {
   }
 
   static renderTileConfig(sheet, html) {
+    console.log(sheet)
     let tile = sheet.object;
     let flags = tile.data.flags[OverheadTileFade.MODULE_NAME];
 
@@ -74,7 +75,7 @@ class OverheadTileFade {
 }
 
 Hooks.on("libWrapper.Ready", function() {
-  libWrapper.register(module, "Tile.prototype.updateOcclusion", OverheadTileFade.updateOcclusion, "WRAPPER");
+  libWrapper.register(OverheadTileFade.MODULE_NAME, "Tile.prototype.updateOcclusion", OverheadTileFade.updateOcclusion, "WRAPPER");
 });
 
 Hooks.on('renderTileConfig', OverheadTileFade.renderTileConfig);
