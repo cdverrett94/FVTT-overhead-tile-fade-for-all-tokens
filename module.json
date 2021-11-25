@@ -5,7 +5,7 @@
   "author": "shortyverrett94 - shortyverrett94#4531",
   "url": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens",
   "bugs": "https://github.com/cdverrett94/overhead-tile-fade-for-all-tokens/issues",
-  "version": "4.3",
+  "version": "1.4.3",
   "minimumCoreVersion": "0.8.8",
   "compatibleCoreVersion": "9",
   "scripts": ["./scripts/overhead-tile-fade-for-all-tokens.js"],
