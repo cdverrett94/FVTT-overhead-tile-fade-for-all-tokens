@@ -15,7 +15,7 @@ const updateOcclusion = function(wrapped, tokens) {
         return false;
       });
     } else {
-      canvas.sight.initializeSources();
+      if(isNewerVersion(game.version, 0.8)) canvas.sight.initializeSources();
       canvas.sight.refresh();
       tokens = canvas.tokens.placeables.filter(token => token.visible);
     }
