@@ -15,6 +15,7 @@ const updateOcclusion = function(wrapped, tokens) {
         return false;
       });
     } else {
+      canvas.sight.initializeSources();
       canvas.sight.refresh();
       tokens = canvas.tokens.placeables.filter(token => token.visible);
     }
@@ -36,32 +37,32 @@ const renderTileConfig = function(sheet, html) {
   let mode = flags?.mode || "BY_VISIBILITY";
 
   html.find('div.tab[data-tab="overhead"]').append(`
-          <h2>Overhead Tile Fade for All Tokens Settings</h2>
-          <div class="form-group">
-              <label>Mode:</label>
-              <select id="otffat_mode_select_${tile.id}" name="flags.${MODULE_NAME}.mode">
-                  <option value="OFF" ${(mode === "OFF")? 'selected':''}>Foundry Default</option>
-                  <option value="ALL" ${(mode === "ALL")? 'selected':''}>All Tokens</option>
-                  <option value="BY_VISIBILITY" ${(mode === "BY_VISIBILITY")? 'selected':''}>By Token Visibility</option>
-                  <option value="BY_DISPOSITION" ${(mode === "BY_DISPOSITION")? 'selected':''}>By Token Disposition</option>
-              </select>
-          </div>
-          <p class="notes" id="otffat_mode_descriptions_${tile.id}">${OTFFAT_DESCRIPTIONS[mode]}</p>
-          <div id="otffat_mode_settings_BY_DISPOSITION" style="margin-top: 15px;">
-              <p class="notes">Settings for when the mode is By Token Disposition</p>
-              <div class="form-group fade-settings" id="fade-for-type">
-                  <label>Dispositions:</label>
-                  Friendly: <input type="checkbox" name="flags.${MODULE_NAME}.friendly" data-dtype="Boolean" ${(flags?.friendly === false)? '':'checked="checked"'} />
-                  Neutral: <input type="checkbox" name="flags.${MODULE_NAME}.neutral" data-dtype="Boolean" ${(flags?.neutral === false)? '':'checked="checked"'} />
-                  Hostile: <input type="checkbox" name="flags.${MODULE_NAME}.hostile" data-dtype="Boolean" ${(flags?.hostile === false)? '':'checked="checked"'} />
-              </div>
-              <div class="form-group fade-settings" id="fade-for-hidden">
-                  <label>Fade for hidden tokens?</label>
-                  <input type="checkbox" name="flags.${MODULE_NAME}.hidden" data-dtype="Boolean" ${(flags?.hidden !== true)? '':'checked="checked"'} />
-              </div>
-          </div>
-          <h2></h2>
-      `);
+    <h2>Overhead Tile Fade for All Tokens Settings</h2>
+    <div class="form-group">
+      <label>Mode:</label>
+      <select id="otffat_mode_select_${tile.id}" name="flags.${MODULE_NAME}.mode">
+        <option value="OFF" ${(mode === "OFF")? 'selected':''}>Foundry Default</option>
+        <option value="ALL" ${(mode === "ALL")? 'selected':''}>All Tokens</option>
+        <option value="BY_VISIBILITY" ${(mode === "BY_VISIBILITY")? 'selected':''}>By Token Visibility</option>
+        <option value="BY_DISPOSITION" ${(mode === "BY_DISPOSITION")? 'selected':''}>By Token Disposition</option>
+      </select>
+    </div>
+    <p class="notes" id="otffat_mode_descriptions_${tile.id}">${OTFFAT_DESCRIPTIONS[mode]}</p>
+    <div id="otffat_mode_settings_BY_DISPOSITION" style="margin-top: 15px;">
+      <p class="notes">Settings for when the mode is By Token Disposition</p>
+      <div class="form-group fade-settings" id="fade-for-type">
+        <label>Dispositions:</label>
+        Friendly: <input type="checkbox" name="flags.${MODULE_NAME}.friendly" data-dtype="Boolean" ${(flags?.friendly === false)? '':'checked="checked"'} />
+        Neutral: <input type="checkbox" name="flags.${MODULE_NAME}.neutral" data-dtype="Boolean" ${(flags?.neutral === false)? '':'checked="checked"'} />
+        Hostile: <input type="checkbox" name="flags.${MODULE_NAME}.hostile" data-dtype="Boolean" ${(flags?.hostile === false)? '':'checked="checked"'} />
+      </div>
+      <div class="form-group fade-settings" id="fade-for-hidden">
+        <label>Fade for hidden tokens?</label>
+        <input type="checkbox" name="flags.${MODULE_NAME}.hidden" data-dtype="Boolean" ${(flags?.hidden !== true)? '':'checked="checked"'} />
+      </div>
+    </div>
+    <h2></h2>
+  `);
 
   $(`#otffat_mode_select_${tile.id}`).change(function() {
     let new_mode = $(this).val();
@@ -69,6 +70,7 @@ const renderTileConfig = function(sheet, html) {
     $(`#otffat_mode_descriptions_${id}`).text(OTFFAT_DESCRIPTIONS[new_mode]);
   });
 
+  sheet.setPosition({height: "auto"});
 }
 
 Hooks.on("libWrapper.Ready", function() {
