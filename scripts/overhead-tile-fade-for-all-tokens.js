@@ -2,7 +2,7 @@ const MODULE_NAME = "overhead-tile-fade-for-all-tokens";
 
 const updateOcclusion = function(wrapped, tokens) {
   // Added to original to filter tokens down to those that should be checked for this tile
-  if (this.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.FADE && this.data.flags[MODULE_NAME]?.mode !== "OFF") {
+  if (this.data.occlusion.mode !== CONST.TILE_OCCLUSION_MODES.RADIAL && this.data.flags[MODULE_NAME]?.mode !== "OFF") {
     if (this.data.flags[MODULE_NAME]?.mode === "ALL") {
       tokens = canvas.tokens.placeables;
     } else if (this.data.flags[MODULE_NAME]?.mode === "BY_DISPOSITION"){
@@ -14,8 +14,8 @@ const updateOcclusion = function(wrapped, tokens) {
         if (this.data.flags[MODULE_NAME]?.hostile !== false && token.data.disposition === -1) return true;
         return false;
       });
-    } else {
-      if(isNewerVersion(game.version, 0.8)) canvas.sight.initializeSources();
+    } else { // if mode is by visibilty or nothing, base on vision
+      if(isNewerVersion(game.version ?? game.data.version, 0.8)) canvas.sight.initializeSources();
       canvas.sight.refresh();
       tokens = canvas.tokens.placeables.filter(token => token.visible);
     }
