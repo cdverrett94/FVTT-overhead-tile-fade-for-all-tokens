@@ -1,5 +1,9 @@
 # Changelog
-## 1.4.4
+## 5.0.0
+Remove all tokens and by disposition options
+removed restriction to just fade tiles. can now work for roof and radial tiles as well. roof tiles really only work when visible tokens are outside the building
+
+## 4.4
 V9.235 (V9T2) compatibility
 Fixed bug where on second load, the tile config sheet wouldn't have its height set
 
