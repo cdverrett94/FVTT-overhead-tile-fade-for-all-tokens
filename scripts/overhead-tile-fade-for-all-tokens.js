@@ -1,73 +1,67 @@
 const MODULE_NAME = "overhead-tile-fade-for-all-tokens";
 
+globalThis.otffat = {
+  counter: 0,
+  anyRadialTiles: false,
+  descriptions: {
+    OFF: "Provides the Foundry Default functionality where an overhead tile is only faded for the token that is under the tile.",
+    BY_VISIBILITY: "This mode will fade an overhead tile as long as the token has visibility on the token under the tile."
+  }
+}
+
 const updateOcclusion = function(wrapped, tokens) {
-  // Added to original to filter tokens down to those that should be checked for this tile
-  if (this.data.occlusion.mode !== CONST.TILE_OCCLUSION_MODES.RADIAL && this.data.flags[MODULE_NAME]?.mode !== "OFF") {
-    if (this.data.flags[MODULE_NAME]?.mode === "ALL") {
-      tokens = canvas.tokens.placeables;
-    } else if (this.data.flags[MODULE_NAME]?.mode === "BY_DISPOSITION"){
-      tokens = canvas.tokens.placeables.filter(token => {
-        if (canvas.tokens.controlled.includes(token)) return true;
-        if (this.data.flags[MODULE_NAME]?.hidden !== true && token.data.hidden === true) return false;
-        if (this.data.flags[MODULE_NAME]?.friendly !== false && token.data.disposition === 1) return true;
-        if (this.data.flags[MODULE_NAME]?.neutral !== false && token.data.disposition === 0) return true;
-        if (this.data.flags[MODULE_NAME]?.hostile !== false && token.data.disposition === -1) return true;
-        return false;
-      });
-    } else { // if mode is by visibilty or nothing, base on vision
+  const numberOfTiles = canvas.foreground.tiles.length;
+  globalThis.otffat.counter = globalThis.otffat.counter ?? 0;
+
+  if(this.data.flags[MODULE_NAME]?.mode !== "OFF") {
+    //refresh vision to get accurate token.visible data. check put in place to prevent sight refresh more than once per ForegroundLayer#updateOcclusion
+    if(globalThis.otffat.counter === 0) { // prevents updating vision while looping through every tile. Should only update on first tile.
       if(isNewerVersion(game.version ?? game.data.version, 0.8)) canvas.sight.initializeSources();
       canvas.sight.refresh();
-      tokens = canvas.tokens.placeables.filter(token => token.visible);
     }
+    tokens = canvas.tokens.placeables.filter(token => token.visible);
   }
+
+  if(globalThis.otffat.anyRadialTiles) canvas.foreground._drawOcclusionShapes(tokens);
+
+  globalThis.otffat.counter = (globalThis.otffat.counter >= numberOfTiles - 1)? 0 : globalThis.otffat.counter + 1;
   return wrapped(tokens);
 }
 
+// update if there are any radial tiles that are affected by this module. Prevents unecessary calls to ForegroundLayer#_drawOcclusionShapes
+const updateAnyRadialTiles = function() {
+  globalThis.otffat.anyRadialTiles = !!canvas.foreground.tiles.find(tile => tile.data.flags["overhead-tile-fade-for-all-tokens"]?.mode !== "OFF" && tile.data.occlusion.mode === CONST.TILE_OCCLUSION_MODES.RADIAL)
+}
+
+// trigger occlusion update when a tile is updated so new OTFFAT settings are taken into account immediately
+const triggerOcclusionUpdate = function() {
+  canvas.foreground.updateOcclusion();
+}
+
+// add off/on setting per tile
 const renderTileConfig = function(sheet, html) {
   let tile = sheet.object;
   let flags = tile.data.flags[MODULE_NAME];
 
-  const OTFFAT_DESCRIPTIONS = {
-    OFF: "Provides the Foundry Default functionality where an overhead tile is only faded for the token that is under the tile.",
-    ALL: "This mode will fade an overhead tile for all tokens if any other token is under the tile, regardless of type or visibility.",
-    BY_DISPOSITION: "This mode allows for an overhead tile to be faded for all tokens as long as the token under the tile is one of the dispositions (i.e. friendly, neutral, hostile) chosen below. Also a setting for whether hidden tokens should be shown if the disposition matches.",
-    BY_VISIBILITY: "This mode will fade an overhead tile as long as the token has visibility on the token under the tile."
-  };
-
-  let mode = flags?.mode || "BY_VISIBILITY";
+  let mode = flags?.mode ?? "BY_VISIBILITY";
 
   html.find('div.tab[data-tab="overhead"]').append(`
     <h2>Overhead Tile Fade for All Tokens Settings</h2>
     <div class="form-group">
       <label>Mode:</label>
       <select id="otffat_mode_select_${tile.id}" name="flags.${MODULE_NAME}.mode">
-        <option value="OFF" ${(mode === "OFF")? 'selected':''}>Foundry Default</option>
-        <option value="ALL" ${(mode === "ALL")? 'selected':''}>All Tokens</option>
+        <option value="OFF" ${(mode === "OFF")? 'selected':''}>Foundry Default (Off)</option>
         <option value="BY_VISIBILITY" ${(mode === "BY_VISIBILITY")? 'selected':''}>By Token Visibility</option>
-        <option value="BY_DISPOSITION" ${(mode === "BY_DISPOSITION")? 'selected':''}>By Token Disposition</option>
       </select>
     </div>
-    <p class="notes" id="otffat_mode_descriptions_${tile.id}">${OTFFAT_DESCRIPTIONS[mode]}</p>
-    <div id="otffat_mode_settings_BY_DISPOSITION" style="margin-top: 15px;">
-      <p class="notes">Settings for when the mode is By Token Disposition</p>
-      <div class="form-group fade-settings" id="fade-for-type">
-        <label>Dispositions:</label>
-        Friendly: <input type="checkbox" name="flags.${MODULE_NAME}.friendly" data-dtype="Boolean" ${(flags?.friendly === false)? '':'checked="checked"'} />
-        Neutral: <input type="checkbox" name="flags.${MODULE_NAME}.neutral" data-dtype="Boolean" ${(flags?.neutral === false)? '':'checked="checked"'} />
-        Hostile: <input type="checkbox" name="flags.${MODULE_NAME}.hostile" data-dtype="Boolean" ${(flags?.hostile === false)? '':'checked="checked"'} />
-      </div>
-      <div class="form-group fade-settings" id="fade-for-hidden">
-        <label>Fade for hidden tokens?</label>
-        <input type="checkbox" name="flags.${MODULE_NAME}.hidden" data-dtype="Boolean" ${(flags?.hidden !== true)? '':'checked="checked"'} />
-      </div>
-    </div>
+    <p class="notes" id="otffat_mode_descriptions_${tile.id}">${globalThis.otffat.descriptions[mode]}</p>
     <h2></h2>
   `);
 
   $(`#otffat_mode_select_${tile.id}`).change(function() {
     let new_mode = $(this).val();
     let id = $(this).attr('id').split("otffat_mode_select_")[1];
-    $(`#otffat_mode_descriptions_${id}`).text(OTFFAT_DESCRIPTIONS[new_mode]);
+    $(`#otffat_mode_descriptions_${id}`).text(globalThis.otffat.descriptions[new_mode]);
   });
 
   sheet.setPosition({height: "auto"});
@@ -78,3 +72,9 @@ Hooks.on("libWrapper.Ready", function() {
 });
 
 Hooks.on('renderTileConfig', renderTileConfig);
+
+Hooks.on('canvasReady', updateAnyRadialTiles);
+Hooks.on('createTile', updateAnyRadialTiles);
+Hooks.on('updateTile', updateAnyRadialTiles);
+
+Hooks.on('updateTile', triggerOcclusionUpdate);
