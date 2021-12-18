@@ -6,8 +6,5 @@ When a token goes under an overhead tile with fade, the default is to only have 
 ## By visibility
 If another token that your token can see is under an overhead tile, the tile will fade to reveal the token.
 
-## By Disposition
-If a token that matches the set dispositions goes under an overhead tile, the tile will fade to reveal the token. This can be limited so that only friendly, neutral, and/or hostile tokens fade the tile. This is if you want your baddies to not have their position given away just because they are under a tile. There is also the option to prevent hidden tokens from fading the tile. This setting is from the original version of the module and is far inferior to the by visibility option, but decided to leave in, just in case.
-
-## All Tokens
-If any token goes under an overhead tile, the tile will fade for everyone.
+## Foundry Default (Off)
+Provides the Foundry Default functionality where an overhead tile is only faded for the token that is under the tile.
