@@ -6,8 +6,8 @@
   "url": "https://github.com/cdverrett94/FVTT-overhead-tile-fade-for-all-tokens",
   "bugs": "https://github.com/cdverrett94/FVTT-overhead-tile-fade-for-all-tokens/issues",
   "version": "5.0.0",
-  "minimumCoreVersion": "0.8.8",
-  "compatibleCoreVersion": "9",
+  "minimumCoreVersion": "10",
+  "compatibleCoreVersion": "10",
   "scripts": [
     "./scripts/overhead-tile-fade-for-all-tokens.js"
   ],

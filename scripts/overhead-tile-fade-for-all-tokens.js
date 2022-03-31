@@ -15,12 +15,11 @@ const updateOcclusion = function (wrapped, tokens) {
 
   //refresh vision to get accurate token.visible data. check put in place to prevent sight refresh more than once per ForegroundLayer#updateOcclusion
   if (globalThis.otffat.counter === 0) {
-    // prevents updating vision while looping through every tile. Should only update on first tile.
-    if (isNewerVersion(game.version ?? game.data.version, 0.8)) canvas.sight.initializeSources();
+    canvas.sight.initializeSources();
     canvas.sight.refresh();
   }
 
-  if (this.data.flags[MODULE_NAME]?.mode !== 'OFF') {
+  if (this.document.flags[MODULE_NAME]?.mode !== 'OFF') {
     tokens = canvas.tokens.placeables.filter((token) => token.visible);
   }
 
@@ -43,7 +42,7 @@ const triggerOcclusionUpdate = function () {
 // add off/on setting per tile
 const renderTileConfig = function (sheet, html) {
   let tile = sheet.object;
-  let flags = tile.data.flags[MODULE_NAME];
+  let flags = tile.document.flags[MODULE_NAME];
 
   let mode = flags?.mode ?? 'BY_VISIBILITY';
 
