@@ -31,7 +31,7 @@ const updateOcclusion = function (wrapped, tokens) {
 
 // update if there are any radial tiles that are affected by this module. Prevents unecessary calls to ForegroundLayer#_drawOcclusionShapes
 const updateAnyRadialTiles = function () {
-  globalThis.otffat.anyRadialTiles = !!canvas.foreground.tiles.find((tile) => tile.document.flags['overhead-tile-fade-for-all-tokens']?.mode !== 'OFF' && tile.document.occlusion.mode === CONST.TILE_OCCLUSION_MODES.RADIAL);
+  globalThis.otffat.anyRadialTiles = !!canvas.foreground.tiles.find((tile) => tile.document.flags[MODULE_NAME]?.mode !== 'OFF' && tile.document.occlusion.mode === CONST.TILE_OCCLUSION_MODES.RADIAL);
 };
 
 // trigger occlusion update when a tile is updated so new OTFFAT settings are taken into account immediately
