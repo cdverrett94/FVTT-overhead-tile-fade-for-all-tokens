@@ -16,7 +16,7 @@
       "name": "overhead-tile-fade-for-all-tokens-macros",
       "label": "Overhead Tile Fade for All Tokens Macros",
       "path": "./packs/overhead-tile-fade-for-all-tokens-macros.db",
-      "entity": "Macro"
+      "type": "Macro"
     }
   ],
   "dependencies": [
