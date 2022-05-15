@@ -13,7 +13,8 @@ function updateOcclusion(wrapped, tokens) {
 }
 
 function drawOcclusionShapes(wrapped, tokens) {
-  return wrapped(canvas.tokens.placeables.filter((token) => token.visible));
+  if (canvas.foreground.tiles.some(fadeByTokenVisibility)) tokens = canvas.tokens.placeables.filter((token) => token.visible);
+  return wrapped(tokens);
 }
 
 Hooks.on('sightRefresh', () => {
@@ -22,7 +23,7 @@ Hooks.on('sightRefresh', () => {
   if (canvas.foreground.tiles.some(fadeByTokenVisibility)) {
     canvas.perception.schedule({ foreground: { refresh: true } });
   } else {
-    canvas.foreground._drawOcclusionShapes();
+    canvas.foreground._drawOcclusionShapes(canvas.tokens.controlled);
   }
 });
 
