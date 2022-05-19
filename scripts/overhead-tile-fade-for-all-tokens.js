@@ -26,7 +26,7 @@ Hooks.on('sightRefresh', () => {
   if (canvas.foreground.tiles.some(fadeByTokenVisibility)) {
     canvas.perception.schedule({ foreground: { refresh: true } });
   } else {
-    canvas.foreground._drawOcclusionShapes(canvas.tokens.controlled);
+    canvas.foreground._drawOcclusionShapes(game.user.isGM ? canvas.tokens.controlled : canvas.tokens.ownedTokens);
   }
 });
 
